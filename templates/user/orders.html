@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import badge, empty %}
+{% block title %}My Orders{% endblock %}
+{% block heading %}My Orders{% endblock %}
+{% block subheading %}<p>Track your orders and view successful deliveries.</p>{% endblock %}
+{% block content %}
+<div class="chips">
+  <a class="chip {{ 'active' if status == 'all' }}" href="{{ url_for('user_orders', status='all') }}">All</a>
+  <a class="chip {{ 'active' if status == 'successful' }}" href="{{ url_for('user_orders', status='successful') }}">Successful</a>
+  <a class="chip {{ 'active' if status == 'active' }}" href="{{ url_for('user_orders', status='active') }}">Active</a>
+  <a class="chip {{ 'active' if status == 'cancelled' }}" href="{{ url_for('user_orders', status='cancelled') }}">Cancelled</a>
+</div>
+<div class="card">
+  {% if rows %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Order</th><th>Barangay</th><th>Rider</th><th>Status</th><th class="num">Total</th><th></th></tr></thead>
+    <tbody>
+    {% for o in rows %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td><b>{{ o.restaurant }}</b><br>{{ o.quantity }} &times; {{ o.item }}<br><small style="color:var(--muted)">{{ o.created_at }}</small></td>
+        <td>{{ o.barangay }}</td>
+        <td>{{ o.rider_name or '-' }}</td>
+        <td>{{ badge(o.status) }}</td>
+        <td class="num"><b>{{ o.total | peso }}</b></td>
+        <td class="num">
+          <a class="btn small ghost" href="{{ url_for('user_order_detail', oid=o.id) }}">Receipt</a>
+          {% if o.status == 'pending' %}
+          <form method="post" action="{{ url_for('user_cancel', oid=o.id) }}" data-confirm="Cancel this order?" style="display:inline">
+            <button class="btn small danger" type="submit">Cancel</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}{{ empty('🍽️', 'No orders here yet. Ready to eat?') }}{% endif %}
+</div>
+{% endblock %}

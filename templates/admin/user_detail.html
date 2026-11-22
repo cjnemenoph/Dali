@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import badge, empty %}
+{% block title %}{{ acct.full_name }}{% endblock %}
+{% block heading %}{{ acct.full_name }}{% endblock %}
+{% block subheading %}<p><a href="{{ url_for('admin_users', kind=kind) }}">&larr; Back to {{ 'riders' if kind == 'rider' else 'customers' }}</a></p>{% endblock %}
+{% block content %}
+<div class="grid split">
+  <div class="card">
+    <h2>Profile</h2>
+    <dl class="profile">
+      <dt>Account type</dt><dd>{{ ROLE_LABELS[kind] }}</dd>
+      <dt>ID</dt><dd>{{ acct.id }}</dd>
+      <dt>Full Name</dt><dd>{{ acct.full_name }}</dd>
+      <dt>Age</dt><dd>{{ acct.age }}</dd>
+      <dt>Contact Number</dt><dd>{{ acct.contact }}</dd>
+      {% if kind == 'rider' %}
+      <dt>Vehicle</dt><dd>{{ acct.vehicle }}</dd>
+      <dt>Plate Number</dt><dd>{{ acct.plate_number or '-' }}</dd>
+      {% endif %}
+      <dt>Registered</dt><dd>{{ acct.created_at }}</dd>
+    </dl>
+  </div>
+  <div class="card">
+    <h2>{{ 'Orders placed' if kind == 'user' else 'Deliveries' }} <small>{{ history | length }} total</small></h2>
+    {% if history %}
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Restaurant</th><th>Status</th><th class="num">Total</th></tr></thead>
+      <tbody>
+      {% for o in history %}
+        <tr><td>{{ o.id }}</td><td>{{ o.restaurant }}<br><small style="color:var(--muted)">{{ o.created_at[:10] }}</small></td><td>{{ badge(o.status) }}</td><td class="num">{{ o.total | peso }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    {% else %}{{ empty('🗒️', 'Nothing here yet.') }}{% endif %}
+  </div>
+</div>
+{% endblock %}

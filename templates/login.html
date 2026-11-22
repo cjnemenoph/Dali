@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ ROLE_LABELS[role] }} Login{% endblock %}
+{% block public %}
+<div class="auth">
+  <a class="back" href="{{ url_for('index') }}">&larr; Back</a>
+  <div class="card">
+    <div class="top">
+      <div class="big">{{ {'admin': '🛠️', 'user': '🍔', 'rider': '🛵'}[role] }}</div>
+      <h1>{{ ROLE_LABELS[role] }} Login</h1>
+    </div>
+    <form method="post" autocomplete="off">
+      {% if role != 'admin' %}
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" required autofocus placeholder="Your full name">
+      </div>
+      {% endif %}
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required {{ 'autofocus' if role == 'admin' }}>
+      </div>
+      <button class="btn block" type="submit">Log in</button>
+    </form>
+    {% if role != 'admin' %}
+    <div class="alt">No account yet? <a href="{{ url_for('register', role=role) }}">Register</a></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,232 @@
+[
+  {
+    "id": 1,
+    "name": "Brgy. 1",
+    "fee": 40.0
+  },
+  {
+    "id": 2,
+    "name": "Brgy. 2",
+    "fee": 40.0
+  },
+  {
+    "id": 3,
+    "name": "Brgy. 3",
+    "fee": 40.0
+  },
+  {
+    "id": 4,
+    "name": "Brgy. 4",
+    "fee": 40.0
+  },
+  {
+    "id": 5,
+    "name": "Brgy. 5",
+    "fee": 40.0
+  },
+  {
+    "id": 6,
+    "name": "Brgy. 6",
+    "fee": 40.0
+  },
+  {
+    "id": 7,
+    "name": "Brgy. 7",
+    "fee": 40.0
+  },
+  {
+    "id": 8,
+    "name": "Brgy. 8",
+    "fee": 40.0
+  },
+  {
+    "id": 9,
+    "name": "Brgy. 9",
+    "fee": 40.0
+  },
+  {
+    "id": 10,
+    "name": "Brgy. 10",
+    "fee": 40.0
+  },
+  {
+    "id": 11,
+    "name": "Brgy. 11",
+    "fee": 40.0
+  },
+  {
+    "id": 12,
+    "name": "Brgy. 12",
+    "fee": 40.0
+  },
+  {
+    "id": 13,
+    "name": "Brgy. 13",
+    "fee": 40.0
+  },
+  {
+    "id": 14,
+    "name": "Brgy. 14",
+    "fee": 40.0
+  },
+  {
+    "id": 15,
+    "name": "Brgy. 15",
+    "fee": 40.0
+  },
+  {
+    "id": 16,
+    "name": "Brgy. 16",
+    "fee": 40.0
+  },
+  {
+    "id": 17,
+    "name": "Brgy. 17",
+    "fee": 40.0
+  },
+  {
+    "id": 18,
+    "name": "Brgy. 18",
+    "fee": 40.0
+  },
+  {
+    "id": 19,
+    "name": "Brgy. 19",
+    "fee": 40.0
+  },
+  {
+    "id": 20,
+    "name": "Brgy. 20",
+    "fee": 40.0
+  },
+  {
+    "id": 21,
+    "name": "Brgy. 21",
+    "fee": 40.0
+  },
+  {
+    "id": 22,
+    "name": "Brgy. 22",
+    "fee": 40.0
+  },
+  {
+    "id": 23,
+    "name": "Brgy. 23",
+    "fee": 40.0
+  },
+  {
+    "id": 24,
+    "name": "Brgy. 24",
+    "fee": 40.0
+  },
+  {
+    "id": 25,
+    "name": "Brgy. 25",
+    "fee": 40.0
+  },
+  {
+    "id": 26,
+    "name": "Brgy. 26",
+    "fee": 40.0
+  },
+  {
+    "id": 27,
+    "name": "Brgy. 27",
+    "fee": 40.0
+  },
+  {
+    "id": 28,
+    "name": "Brgy. 28",
+    "fee": 40.0
+  },
+  {
+    "id": 29,
+    "name": "Antonio Luna",
+    "fee": 80.0
+  },
+  {
+    "id": 30,
+    "name": "Bay-ang",
+    "fee": 80.0
+  },
+  {
+    "id": 31,
+    "name": "Bayabas",
+    "fee": 80.0
+  },
+  {
+    "id": 32,
+    "name": "Caasinan",
+    "fee": 80.0
+  },
+  {
+    "id": 33,
+    "name": "Cabinet",
+    "fee": 80.0
+  },
+  {
+    "id": 34,
+    "name": "Calamba",
+    "fee": 80.0
+  },
+  {
+    "id": 35,
+    "name": "Calibunan",
+    "fee": 80.0
+  },
+  {
+    "id": 36,
+    "name": "Comagascas",
+    "fee": 80.0
+  },
+  {
+    "id": 37,
+    "name": "Concepcion",
+    "fee": 80.0
+  },
+  {
+    "id": 38,
+    "name": "Del Pilar",
+    "fee": 80.0
+  },
+  {
+    "id": 39,
+    "name": "Katugasan",
+    "fee": 80.0
+  },
+  {
+    "id": 40,
+    "name": "Kauswagan",
+    "fee": 80.0
+  },
+  {
+    "id": 41,
+    "name": "La Fortuna",
+    "fee": 80.0
+  },
+  {
+    "id": 42,
+    "name": "Mabini",
+    "fee": 80.0
+  },
+  {
+    "id": 43,
+    "name": "Mahaba",
+    "fee": 80.0
+  },
+  {
+    "id": 44,
+    "name": "Maporong",
+    "fee": 80.0
+  },
+  {
+    "id": 45,
+    "name": "Paraiso",
+    "fee": 80.0
+  },
+  {
+    "name": "DBC",
+    "fee": 50.0,
+    "id": 46
+  }
+]

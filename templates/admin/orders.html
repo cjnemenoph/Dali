@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import badge, empty %}
+{% block title %}Order Management{% endblock %}
+{% block heading %}Order Management{% endblock %}
+{% block subheading %}<p>Completed orders are shown first. Use the filters to see the rest.</p>{% endblock %}
+{% block content %}
+<div class="chips">
+  <a class="chip {{ 'active' if status == 'delivered' }}" href="{{ url_for('admin_orders', status='delivered') }}">Completed</a>
+  <a class="chip {{ 'active' if status == 'pending' }}" href="{{ url_for('admin_orders', status='pending') }}">Waiting for rider</a>
+  <a class="chip {{ 'active' if status == 'accepted' }}" href="{{ url_for('admin_orders', status='accepted') }}">On the way</a>
+  <a class="chip {{ 'active' if status == 'cancelled' }}" href="{{ url_for('admin_orders', status='cancelled') }}">Cancelled</a>
+  <a class="chip {{ 'active' if status == 'all' }}" href="{{ url_for('admin_orders', status='all') }}">All</a>
+</div>
+<div class="card">
+  {% if rows %}
+  <div class="table-wrap"><table>
+    <thead><tr>
+      <th>#</th><th>Customer</th><th>Order</th><th>Barangay</th><th>Rider</th><th>Status</th>
+      <th class="num">Subtotal</th><th class="num">Delivery</th><th class="num">Total</th><th>Placed</th>
+    </tr></thead>
+    <tbody>
+    {% for o in rows %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.customer_name }}<br><small style="color:var(--muted)">{{ o.customer_contact }}</small></td>
+        <td><b>{{ o.restaurant }}</b><br>{{ o.quantity }} &times; {{ o.item }}</td>
+        <td>{{ o.barangay }}{% if o.additional_info %}<br><small style="color:var(--muted)">{{ o.additional_info }}</small>{% endif %}</td>
+        <td>{{ o.rider_name or '-' }}</td>
+        <td>{{ badge(o.status) }}</td>
+        <td class="num">{{ o.subtotal | peso }}</td>
+        <td class="num">{{ o.fee | peso }}</td>
+        <td class="num"><b>{{ o.total | peso }}</b></td>
+        <td>{{ o.created_at }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}{{ empty('🧾', 'No orders in this view yet.') }}{% endif %}
+</div>
+{% endblock %}

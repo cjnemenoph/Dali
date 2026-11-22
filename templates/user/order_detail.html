@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import badge, receipt %}
+{% block title %}Order #{{ o.id }}{% endblock %}
+{% block heading %}Order #{{ o.id }} {{ badge(o.status) }}{% endblock %}
+{% block subheading %}<p><a href="{{ url_for('user_orders') }}">&larr; Back to My Orders</a></p>{% endblock %}
+{% block content %}
+<div class="grid split">
+  <div class="card">
+    <h2>Receipt</h2>
+    {{ receipt(o) }}
+  </div>
+  <div class="card">
+    <h2>Delivery status</h2>
+    <dl class="profile">
+      <dt>Status</dt><dd>{{ o.status | status_label }}</dd>
+      <dt>Placed</dt><dd>{{ o.created_at }}</dd>
+      <dt>Rider</dt><dd>{{ o.rider_name or 'Waiting for a rider to accept' }}</dd>
+      {% if o.accepted_at %}<dt>Accepted</dt><dd>{{ o.accepted_at }}</dd>{% endif %}
+      {% if o.delivered_at %}<dt>Delivered</dt><dd>{{ o.delivered_at }}</dd>{% endif %}
+    </dl>
+    {% if o.status == 'pending' %}
+    <form method="post" action="{{ url_for('user_cancel', oid=o.id) }}" data-confirm="Cancel this order?" style="margin-top:18px">
+      <button class="btn danger" type="submit">Cancel order</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

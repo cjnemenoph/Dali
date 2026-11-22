@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import empty %}
+{% block title %}User Management{% endblock %}
+{% block heading %}User Management{% endblock %}
+{% block subheading %}<p>View and search registered customers and riders.</p>{% endblock %}
+{% block content %}
+<div class="chips">
+  <a class="chip {{ 'active' if kind == 'user' }}" href="{{ url_for('admin_users', kind='user') }}">Customers ({{ counts.user }})</a>
+  <a class="chip {{ 'active' if kind == 'rider' }}" href="{{ url_for('admin_users', kind='rider') }}">Riders ({{ counts.rider }})</a>
+</div>
+
+<div class="card">
+  <form method="get" class="inline-form" style="margin-bottom: 14px">
+    <input type="hidden" name="kind" value="{{ kind }}">
+    <input style="width: 100%; max-width: 340px" name="q" value="{{ q }}" placeholder="Search by name, contact number or ID">
+    <button class="btn" type="submit">Search</button>
+    {% if q %}<a class="btn ghost" href="{{ url_for('admin_users', kind=kind) }}">Clear</a>{% endif %}
+  </form>
+
+  {% if rows %}
+  <div class="table-wrap"><table>
+    <thead><tr>
+      <th>ID</th><th>Full Name</th><th>Age</th><th>Contact</th>
+      {% if kind == 'rider' %}<th>Vehicle</th>{% endif %}
+      <th>Registered</th><th></th>
+    </tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.id }}</td><td><b>{{ r.full_name }}</b></td><td>{{ r.age }}</td><td>{{ r.contact }}</td>
+        {% if kind == 'rider' %}<td>{{ r.vehicle }}</td>{% endif %}
+        <td>{{ r.created_at[:10] }}</td>
+        <td class="num"><a class="btn small ghost" href="{{ url_for('admin_user_detail', kind=kind, uid=r.id) }}">View profile</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}
+    {{ empty('🔍', 'No matching ' ~ ('riders' if kind == 'rider' else 'customers') ~ ' found.') }}
+  {% endif %}
+</div>
+{% endblock %}

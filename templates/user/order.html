@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Place an Order{% endblock %}
+{% block heading %}Place an Order{% endblock %}
+{% block subheading %}<p>Type in what you want and pick your barangay. We'll compute the total for you.</p>{% endblock %}
+{% block content %}
+<div class="grid split">
+  <div class="card">
+    <h2>Order details</h2>
+    <form method="post" id="order-form" autocomplete="off">
+      <div class="field">
+        <label for="restaurant">Restaurant Name</label>
+        <input id="restaurant" name="restaurant" required placeholder="e.g. Jollibee" value="{{ form.get('restaurant', '') }}">
+      </div>
+      <div class="field">
+        <label for="item">Order</label>
+        <input id="item" name="item" required placeholder="e.g. Chickenjoy" value="{{ form.get('item', '') }}">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="price">Price per Item (&#8369;)</label>
+          <input id="price" name="price" type="number" step="0.01" min="0.01" required placeholder="99.00" value="{{ form.get('price', '') }}">
+        </div>
+        <div class="field">
+          <label for="quantity">Quantity</label>
+          <input id="quantity" name="quantity" type="number" min="1" max="99" required value="{{ form.get('quantity', 1) }}">
+        </div>
+      </div>
+      <div class="field">
+        <label for="barangay">Barangay</label>
+        <select id="barangay" name="barangay" required>
+          <option value="">Select your barangay...</option>
+          {% for b in barangays %}
+          <option value="{{ b.id }}" data-fee="{{ b.fee }}" data-name="{{ b.name }}" {{ 'selected' if form.get('barangay') == b.id | string }}>{{ b.name }} &mdash; {{ b.fee | peso }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="additional_info">Additional Info</label>
+        <input id="additional_info" name="additional_info" placeholder="Landmark or house details, e.g. Atbang sa CSUCC front gate" value="{{ form.get('additional_info', '') }}">
+      </div>
+      <button class="btn gold block" type="submit">Place order</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Computation</h2>
+    <div class="receipt">
+      <dl>
+        <dt>Barangay Selected</dt><dd id="c-brgy">-</dd>
+        <dt>Additional Info</dt><dd id="c-info">-</dd>
+      </dl>
+      <hr>
+      <dl>
+        <dt>Restaurant Name</dt><dd id="c-rest">-</dd>
+        <dt>Food Item</dt><dd id="c-item">-</dd>
+        <dt>Price per Item</dt><dd id="c-price">&#8369;0.00</dd>
+        <dt>Quantity</dt><dd id="c-qty">0</dd>
+        <dt>Food Subtotal</dt><dd id="c-sub">&#8369;0.00</dd>
+        <dt>Delivery Fee</dt><dd id="c-fee">-</dd>
+      </dl>
+      <hr>
+      <dl class="total"><dt>TOTAL AMOUNT</dt><dd id="c-total">&#8369;0.00</dd></dl>
+    </div>
+    <p class="hint">Pay the rider in cash when your order arrives.</p>
+  </div>
+</div>
+{% endblock %}

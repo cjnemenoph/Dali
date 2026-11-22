@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{{ ROLE_LABELS[role] }} Registration{% endblock %}
+{% block public %}
+<div class="auth">
+  <a class="back" href="{{ url_for('index') }}">&larr; Back</a>
+  <div class="card">
+    <div class="top">
+      <div class="big">{{ '🛵' if role == 'rider' else '🍔' }}</div>
+      <h1>{{ ROLE_LABELS[role] }} Registration</h1>
+    </div>
+    <form method="post" autocomplete="off">
+      <div class="field">
+        <label for="full_name">Full Name</label>
+        <input id="full_name" name="full_name" required value="{{ form.get('full_name', '') }}">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="age">Age</label>
+          <input id="age" name="age" type="number" min="{{ 18 if role == 'rider' else 13 }}" max="100" required value="{{ form.get('age', '') }}">
+          {% if role == 'rider' %}<div class="hint">Riders must be 18 or older.</div>{% endif %}
+        </div>
+        <div class="field">
+          <label for="contact">Contact Number</label>
+          <input id="contact" name="contact" required placeholder="09123456789" value="{{ form.get('contact', '') }}">
+        </div>
+      </div>
+
+      {% if role == 'rider' %}
+      <div class="row">
+        <div class="field">
+          <label for="vehicle">Vehicle</label>
+          <select id="vehicle" name="vehicle" required>
+            <option value="">Choose...</option>
+            {% for v in vehicles %}<option {{ 'selected' if form.get('vehicle') == v }}>{{ v }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="plate_number">Plate Number</label>
+          <input id="plate_number" name="plate_number" placeholder="Optional" value="{{ form.get('plate_number', '') }}">
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" minlength="6" required>
+        </div>
+        <div class="field">
+          <label for="confirm">Confirm Password</label>
+          <input id="confirm" name="confirm" type="password" minlength="6" required>
+        </div>
+      </div>
+      <button class="btn block" type="submit">Create account</button>
+    </form>
+    <div class="alt">Already registered? <a href="{{ url_for('login', role=role) }}">Log in</a></div>
+  </div>
+</div>
+{% endblock %}

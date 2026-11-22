@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import badge, empty %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block heading %}Admin Dashboard{% endblock %}
+{% block subheading %}<p>Platform overview for DALI Delivery.</p>{% endblock %}
+{% block content %}
+<div class="grid stats">
+  <div class="card stat"><div class="icon">👥</div><div class="label">Total Registered Users</div><div class="value">{{ stats.users }}</div></div>
+  <div class="card stat"><div class="icon">🧾</div><div class="label">Total Orders Placed</div><div class="value">{{ stats.orders }}</div></div>
+  <div class="card stat"><div class="icon">✅</div><div class="label">Completed Deliveries</div><div class="value">{{ stats.completed }}</div></div>
+  <div class="card stat"><div class="icon">🛵</div><div class="label">Registered Riders</div><div class="value">{{ stats.riders }}</div></div>
+  <div class="card stat gold"><div class="icon">💰</div><div class="label">Delivered Sales</div><div class="value">{{ stats.sales | peso }}</div></div>
+</div>
+
+<div class="grid two">
+  <div class="card">
+    <h2>Orders by status</h2>
+    {% set total = stats.orders or 1 %}
+    {% for s, n in by_status.items() %}
+    <div class="bar-row">
+      <span>{{ s | status_label }}</span>
+      <div class="bar-track"><div class="bar-fill {{ 'gold' if s == 'pending' }}" style="width: {{ (n / total * 100) | round(1) }}%"></div></div>
+      <b>{{ n }}</b>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h2>Busiest barangays</h2>
+    {% if top_brgy %}
+      {% set peak = top_brgy[0][1] %}
+      {% for name, n in top_brgy %}
+      <div class="bar-row">
+        <span>{{ name }}</span>
+        <div class="bar-track"><div class="bar-fill" style="width: {{ (n / peak * 100) | round(1) }}%"></div></div>
+        <b>{{ n }}</b>
+      </div>
+      {% endfor %}
+    {% else %}{{ empty('📍', 'No orders yet.') }}{% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h2>Recent orders <small><a href="{{ url_for('admin_orders', status='all') }}">View all</a></small></h2>
+  {% if recent %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Customer</th><th>Restaurant</th><th>Barangay</th><th>Status</th><th class="num">Total</th></tr></thead>
+    <tbody>
+    {% for o in recent %}
+      <tr><td>{{ o.id }}</td><td>{{ o.customer_name }}</td><td>{{ o.restaurant }}</td><td>{{ o.barangay }}</td><td>{{ badge(o.status) }}</td><td class="num">{{ o.total | peso }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}{{ empty('🍽️', 'No orders have been placed yet.') }}{% endif %}
+</div>
+{% endblock %}

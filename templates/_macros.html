@@ -1,0 +1,34 @@
+{% macro badge(status) -%}
+<span class="badge {{ status }}">{{ status | status_label }}</span>
+{%- endmacro %}
+
+{% macro empty(icon, text) -%}
+<div class="empty"><div class="big">{{ icon }}</div>{{ text }}</div>
+{%- endmacro %}
+
+{# The computation block from the spec (3.2) #}
+{% macro receipt(o) -%}
+<div class="receipt">
+  <div class="head">Order #{{ o.id }} &middot; {{ o.created_at }}</div>
+  <dl>
+    <dt>Barangay Selected</dt><dd>{{ o.barangay }}</dd>
+    <dt>Additional Info</dt><dd>{{ o.additional_info or '-' }}</dd>
+  </dl>
+  <hr>
+  <dl>
+    <dt>Restaurant Name</dt><dd>{{ o.restaurant }}</dd>
+    <dt>Food Item</dt><dd>{{ o.item }}</dd>
+    <dt>Price per Item</dt><dd>{{ o.price | peso }}</dd>
+    <dt>Quantity</dt><dd>{{ o.quantity }}</dd>
+    <dt>Food Subtotal</dt><dd>{{ o.subtotal | peso }}</dd>
+    <dt>Delivery Fee</dt><dd>{{ o.fee | peso }}</dd>
+  </dl>
+  <hr>
+  <dl class="total"><dt>TOTAL AMOUNT</dt><dd>{{ o.total | peso }}</dd></dl>
+</div>
+{%- endmacro %}
+
+{% macro logo(cls='') -%}
+<img class="{{ cls }}" src="{{ url_for('static', filename='img/logo.png') }}" alt="DALI"
+     onerror="this.outerHTML='<span class=&quot;brand-emoji {{ cls }}&quot;>🐆</span>'">
+{%- endmacro %}

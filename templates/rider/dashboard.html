@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import empty %}
+{% block title %}Rider Dashboard{% endblock %}
+{% block heading %}Rider Dashboard{% endblock %}
+{% block subheading %}<p>{{ rider.vehicle }}{% if rider.plate_number %} &middot; {{ rider.plate_number }}{% endif %} &middot; {{ rider.contact }}</p>{% endblock %}
+{% block content %}
+<div class="grid stats">
+  <div class="card stat"><div class="icon">✅</div><div class="label">Completed Deliveries</div><div class="value">{{ stats.completed }}</div></div>
+  <div class="card stat"><div class="icon">📦</div><div class="label">Orders Available</div><div class="value">{{ stats.available }}</div></div>
+  <div class="card stat gold"><div class="icon">💰</div><div class="label">Delivery Fees Earned</div><div class="value">{{ stats.earned | peso }}</div></div>
+</div>
+
+<div class="card" style="margin-bottom: 18px">
+  <h2>Active delivery</h2>
+  {% if active %}
+  <div class="job live">
+    <div>
+      <b>{{ active.restaurant }}</b> &rarr; {{ active.barangay }}
+      <div class="meta">{{ active.quantity }} &times; {{ active.item }} &middot; Order #{{ active.id }}</div>
+      <div class="meta">Customer: {{ active.customer_name }} &middot; {{ active.customer_contact }}</div>
+      {% if active.additional_info %}<div class="meta">📍 {{ active.additional_info }}</div>{% endif %}
+      <div class="meta">Collect <b>{{ active.total | peso }}</b> (food {{ active.subtotal | peso }} + delivery {{ active.fee | peso }})</div>
+    </div>
+    <form method="post" action="{{ url_for('rider_deliver', oid=active.id) }}" data-confirm="Mark this order as delivered?">
+      <button class="btn gold" type="submit">Mark as delivered</button>
+    </form>
+  </div>
+  {% else %}{{ empty('🛵', 'No active delivery. Accept an order below to get started.') }}{% endif %}
+</div>
+
+<div class="grid split">
+  <div class="card">
+    <h2>Available orders <small>oldest first</small></h2>
+    {% for o in available %}
+    <div class="job">
+      <div>
+        <b>{{ o.restaurant }}</b> &rarr; {{ o.barangay }}
+        <div class="meta">{{ o.quantity }} &times; {{ o.item }} &middot; Order #{{ o.id }}</div>
+        {% if o.additional_info %}<div class="meta">📍 {{ o.additional_info }}</div>{% endif %}
+        <div class="meta">Your fee: <b>{{ o.fee | peso }}</b> &middot; Total {{ o.total | peso }}</div>
+      </div>
+      <form method="post" action="{{ url_for('rider_accept', oid=o.id) }}">
+        <button class="btn" type="submit" {{ 'disabled' if active }} title="{{ 'Finish your active delivery first' if active }}">Accept</button>
+      </form>
+    </div>
+    {% else %}
+      {{ empty('📭', 'No orders waiting right now. Check back soon!') }}
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <h2>Delivery history</h2>
+    {% if done %}
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Order</th><th class="num">Fee</th></tr></thead>
+      <tbody>
+      {% for o in done %}
+        <tr><td>{{ o.id }}</td><td>{{ o.restaurant }} &rarr; {{ o.barangay }}<br><small style="color:var(--muted)">{{ o.delivered_at }}</small></td><td class="num">{{ o.fee | peso }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    {% else %}{{ empty('🗒️', 'Completed deliveries will show up here.') }}{% endif %}
+  </div>
+</div>
+{% endblock %}

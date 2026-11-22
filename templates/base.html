@@ -1,0 +1,61 @@
+{% from '_macros.html' import logo %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DALI{% endblock %} &middot; DALI Delivery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{{ 'app' if session.role else 'public' }}">
+{% if session.role %}
+  {% set ep = request.endpoint %}
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('index') }}">
+      {{ logo() }}
+      <div><b>DALI</b><small>Order Dali. Abot Dali.</small></div>
+    </a>
+    <nav class="nav">
+      {% if session.role == 'admin' %}
+        <div class="nav-label">Admin</div>
+        <a class="{{ 'active' if ep == 'admin_dashboard' }}" href="{{ url_for('admin_dashboard') }}"><span class="ico">📊</span> Dashboard</a>
+        <a class="{{ 'active' if ep in ('admin_users', 'admin_user_detail') }}" href="{{ url_for('admin_users') }}"><span class="ico">👥</span> Users</a>
+        <a class="{{ 'active' if ep == 'admin_orders' }}" href="{{ url_for('admin_orders') }}"><span class="ico">🧾</span> Orders</a>
+        <a class="{{ 'active' if ep == 'admin_barangays' }}" href="{{ url_for('admin_barangays') }}"><span class="ico">📍</span> Delivery Fees</a>
+      {% elif session.role == 'user' %}
+        <div class="nav-label">Customer</div>
+        <a class="{{ 'active' if ep == 'user_order' }}" href="{{ url_for('user_order') }}"><span class="ico">🍔</span> Place an Order</a>
+        <a class="{{ 'active' if ep in ('user_orders', 'user_order_detail') }}" href="{{ url_for('user_orders') }}"><span class="ico">🧾</span> My Orders</a>
+      {% else %}
+        <div class="nav-label">Rider</div>
+        <a class="{{ 'active' if ep == 'rider_dashboard' }}" href="{{ url_for('rider_dashboard') }}"><span class="ico">🛵</span> Dashboard</a>
+      {% endif %}
+    </nav>
+    <div class="spacer"></div>
+    <nav class="nav"><a class="logout" href="{{ url_for('logout') }}"><span class="ico">🚪</span> Log out</a></nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>{% block heading %}{% endblock %}</h1>
+        {% block subheading %}{% endblock %}
+      </div>
+      <div class="who">
+        <div class="avatar">{{ session.name[0] | upper }}</div>
+        <div>{{ session.name }}<small>{{ ROLE_LABELS[session.role] }}</small></div>
+      </div>
+    </header>
+    {% include '_flashes.html' %}
+    {% block content %}{% endblock %}
+  </main>
+{% else %}
+  <main class="public-main">
+    {% include '_flashes.html' %}
+    {% block public %}{% endblock %}
+    <div class="foot">DALI Delivery &middot; Cabadbaran City</div>
+  </main>
+{% endif %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

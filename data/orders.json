@@ -1,0 +1,23 @@
+[
+  {
+    "user_id": 1,
+    "customer_name": "Irene Nemeño",
+    "customer_contact": "09088184444",
+    "restaurant": "Jollibee",
+    "item": "C1",
+    "price": 95.0,
+    "quantity": 3,
+    "barangay": "DBC",
+    "additional_info": "Green House, Last road",
+    "subtotal": 285.0,
+    "fee": 50.0,
+    "total": 335.0,
+    "status": "accepted",
+    "rider_id": 1,
+    "rider_name": "Jelmar Pañamogan",
+    "created_at": "2026-11-22 13:00:24",
+    "accepted_at": "2026-11-22 13:01:12",
+    "delivered_at": null,
+    "id": 1
+  }
+]
