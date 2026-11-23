@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import logo %}
+{% block title %}Welcome{% endblock %}
+{% block public %}
+<div class="hero">
+  {{ logo('mark') }}
+  <h1>DALI</h1>
+  <div class="sub">DELIVERY</div>
+  <div class="tag">Order <b>Dali</b>. Abot <b>Dali</b>.</div>
+  <p>Food ordering and delivery for Cabadbaran City</p>
+</div>
+
+<div class="roles">
+  <div class="card role-card">
+    <div class="big">🍔</div>
+    <h2>Customer</h2>
+    <p>Order from your favorite restaurant and see your total with the barangay delivery fee.</p>
+    <div class="btns">
+      <a class="btn" href="{{ url_for('login', role='user') }}">Log in</a>
+      <a class="btn ghost" href="{{ url_for('register', role='user') }}">Create account</a>
+    </div>
+  </div>
+  <div class="card role-card">
+    <div class="big">🛵</div>
+    <h2>Rider</h2>
+    <p>Pick up available orders, deliver them and track your completed deliveries.</p>
+    <div class="btns">
+      <a class="btn gold" href="{{ url_for('login', role='rider') }}">Log in</a>
+      <a class="btn ghost" href="{{ url_for('register', role='rider') }}">Register as rider</a>
+    </div>
+  </div>
+  <div class="card role-card">
+    <div class="big">🛠️</div>
+    <h2>Admin</h2>
+    <p>Monitor users, riders and orders, and manage barangay delivery fees.</p>
+    <div class="btns">
+      <a class="btn ghost" href="{{ url_for('login', role='admin') }}">Admin log in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
